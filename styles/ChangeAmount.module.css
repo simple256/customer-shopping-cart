@@ -1,0 +1,20 @@
+.row {
+	display: flex;
+	flex-direction: row;
+}
+.amountField {
+	width: 50px;
+}
+.maxContentHeight {
+	height: max-content;
+}
+.column {
+	display: flex;
+	flex-direction: column;
+}
+.container {
+	margin-left: 10px;
+}
+.label {
+	align-self: center;
+}

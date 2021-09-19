@@ -1,0 +1,13 @@
+.container {
+	margin-left: 10px;
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+}
+.row {
+	display: flex;
+	flex-direction: row;
+}
+.between {
+	justify-content: space-between;
+}
