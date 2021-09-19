@@ -1,18 +1,27 @@
 .container {
 	display: flex;
 	flex-direction: column;
-
 	box-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
 	background: #f6f7f9;
 	border-radius: 8px;
 	overflow: hidden;
 	position: relative;
 	padding: 10px;
+	margin: 10px;
+	width: 65%;
+	min-width: 550px;
+	max-width: 900px;
 }
 
-.totalPrice {
-	align-self: end;
-}
 .title {
 	margin-bottom: 10px;
+}
+
+.totals {
+	display: flex;
+	justify-content: space-between;
+	align-content: space-between;
+	align-items: baseline;
+	width: 100%;
+	margin-top: 10px;
 }
