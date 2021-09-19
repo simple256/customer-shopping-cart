@@ -2,10 +2,18 @@ import React, { useMemo, useState } from 'react';
 import ProductList from '../../components/ProductList';
 import s from '../../styles/Cart.module.css';
 import TotalPrice from '../../components/TotalPrice';
-import { CURRENCY_NAME, TTotalPrice } from '../../services/currency';
+import { TTotalPrice } from '../../services/currency';
 import Label from '../../components/Label';
 import { ICartProduct } from '../../models/products';
 import CurrencySelector from '../../components/CurrencySelector';
+
+const CURRENCY_NAME: {[key: string]: any}= {
+	RUB: 'rubles',
+	EUR: 'euros',
+	USD: 'dollars',
+	GBP: 'pounds',
+	JPY: 'yens',
+};
 
 interface ICart {
 	products: ICartProduct[];
@@ -13,14 +21,14 @@ interface ICart {
 }
 
 const Cart: React.FC<ICart> = ({ products, currency }) => {
-	const [currencySelectorValue, setCurrencySelectorValue] = useState(CURRENCY_NAME.DOLLARS);
-	const [amount, setAmount] = useState(getTotalPrice(products, +(currency[currencySelectorValue] ?? 0)));
+	const [currencySelectorValue, setCurrencySelectorValue] = useState(CURRENCY_NAME.USD);
+	const [amount, setAmount] = useState(getTotalPrice(products, +(currency?.[currencySelectorValue] ?? 0)));
 	const onChangeHandler = () => {
-		setAmount(getTotalPrice(products, +(currency[currencySelectorValue] ?? 0)));
+		setAmount(getTotalPrice(products, +(currency?.[currencySelectorValue] ?? 0)));
 	};
 	const onCurrencyChanged = (value: string) => {
 		setCurrencySelectorValue(value);
-		setAmount(getTotalPrice(products, +(currency[value] ?? 0)));
+		setAmount(getTotalPrice(products, +(currency?.[value] ?? 0)));
 	};
 	return (
 		<div className={s.container}>
