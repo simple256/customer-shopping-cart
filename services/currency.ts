@@ -90,7 +90,7 @@ export async function getCurrency(
  * Возвращает курс относительно доллара
  */
 export async function getBaseCurrencyValues(): Promise<TTotalPrice> {
-	return await getCurrency(CURRENCY_ID.dollars, [
+	return getCurrency(CURRENCY_ID.dollars, [
 		CURRENCY_ID.rubles,
 		CURRENCY_ID.euros,
 		CURRENCY_ID.dollars,
@@ -107,7 +107,7 @@ function convertResponseData(rawData: AxiosResponse<IConverterResponseData>): TT
 	const result: TTotalPrice = {};
 	for (const item in rawData.data.rates) {
 		const currentRate = rawData?.data?.rates[item];
-		result[CURRENCY_ID[item as unknown as string] ] = currentRate ? Number(currentRate.rate) : null;
+		result[CURRENCY_NAME[item] ] = currentRate ? Number(currentRate.rate) : null;
 	}
 	return result;
 }
