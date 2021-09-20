@@ -20,7 +20,7 @@ interface ICart {
 	currency: TTotalPrice;
 }
 
-const Cart: React.FC<ICart> = ({ products, currency }) => {
+const Cart: React.FC<ICart> = ({ products= [], currency }) => {
 	const [currencySelectorValue, setCurrencySelectorValue] = useState(CURRENCY_NAME.USD);
 	const [amount, setAmount] = useState(getTotalPrice(products, +(currency?.[currencySelectorValue] ?? 0)));
 	const onChangeHandler = () => {
@@ -44,9 +44,9 @@ const Cart: React.FC<ICart> = ({ products, currency }) => {
 
 function getTotalPrice(products: ICartProduct[], currency: number): number {
 	let sum = 0;
-	for (const product of products) {
+	Array.from(products || []).forEach((product) => {
 		sum += product.COUNT * product.PRICE * currency;
-	}
+	})
 	return sum;
 }
 
