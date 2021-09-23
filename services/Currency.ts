@@ -1,55 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-
-type TValueOf<T> = T[keyof T];
-type TTotalPrice = {
-	[key: string]: number | null;
-};
-
-interface ITotalCartPrice {
-	rubles: number;
-	euros: number;
-	dollars: number;
-	pounds: number;
-	yens: number;
-}
-
-export interface IRates {
-	[id: string]: {
-		currency_name?: string;
-		rate?: string;
-		rate_for_amount?: string;
-	};
-}
-export interface IConverterResponseData {
-	base_currency_code: typeof CURRENCY_ID;
-	base_currency_name: string;
-	amount: string;
-	updated_date: string;
-	rates: IRates;
-}
-export type { TValueOf, TTotalPrice };
-
-const CURRENCY_NAME: {[key: string]: any}= {
-	RUB: 'rubles',
-	EUR: 'euros',
-	USD: 'dollars',
-	GBP: 'pounds',
-	JPY: 'yens',
-};
-const CURRENCY_ID: {[key: string]: any} = {
-	rubles: 'RUB',
-	euros: 'EUR',
-	dollars: 'USD',
-	pounds: 'GBP',
-	yens: 'JPY',
-};
-const CURRENCY_ID_NAME = {
-	RUB: CURRENCY_NAME.RUB,
-	EUR: CURRENCY_NAME.EUR,
-	USD: CURRENCY_NAME.USD,
-	GBP: CURRENCY_NAME.GBP,
-	JPY: CURRENCY_NAME.JPY,
-};
+import {CURRENCY_NAME, CURRENCY_ID} from './Contants';
+import { IConverterResponseData, TTotalPrice, TValueOf } from './Interfaces';
 
 /**
  * Возвращает между базовой валютой и выбранной/выбранными
@@ -82,7 +33,7 @@ export async function getCurrency(
 		})
 		.catch((error) => {
 			console.error(error);
-			return {};
+			return {} as TTotalPrice;
 		});
 }
 
@@ -107,7 +58,7 @@ function convertResponseData(rawData: AxiosResponse<IConverterResponseData>): TT
 	const result: TTotalPrice = {};
 	for (const item in rawData.data.rates) {
 		const currentRate = rawData?.data?.rates[item];
-		result[CURRENCY_NAME[item] ] = currentRate ? Number(currentRate.rate) : null;
+		result[CURRENCY_NAME[item]] = currentRate ? Number(currentRate.rate) : null;
 	}
 	return result;
 }

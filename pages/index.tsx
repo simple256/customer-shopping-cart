@@ -1,9 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import s from '../styles/Home.module.css';
-import { getBaseCurrencyValues, TTotalPrice } from '../services/currency';
+import { getBaseCurrencyValues } from '../services/Currency';
 import Cart from './Cart';
 import { CART_PRODUCTS } from '../models/products';
+import { TTotalPrice } from '../services/Interfaces';
 
 const Home: NextPage<{ currency: TTotalPrice }, {}> = ({ currency }) => {
 	return (
@@ -26,14 +27,18 @@ const Home: NextPage<{ currency: TTotalPrice }, {}> = ({ currency }) => {
 };
 
 Home.getInitialProps = async () => {
-	const currency = await getBaseCurrencyValues();
-	// const currency = {
-	// 	dollars: 1,
-	// 	euros: 0.8489,
-	// 	pounds: 0.7246,
-	// 	yens: 110.0331,
-	// 	rubles: 72.6444,
-	// };
+	let currency;
+	if (process.env.NODE_ENV === 'development') {
+		currency = {
+			dollars: 1,
+			euros: 0.8489,
+			pounds: 0.7246,
+			yens: 110.0331,
+			rubles: 72.6444,
+		};
+	} else {
+		currency = await getBaseCurrencyValues();
+	}
 	return { currency };
 };
 

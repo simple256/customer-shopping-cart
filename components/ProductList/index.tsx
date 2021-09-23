@@ -12,12 +12,12 @@ const ProductList: React.FC<IProductList> = ({ products, onChanged }) => {
 	return (
 		<>
 			{products.map((product) => (
-				<>
-					<hr key={'list-' + product.ID} className={s.line} />
-					<Product key={product.ID} product={product} onChanged={onChanged} />
-				</>
+				<div key={product.ID}>
+					<hr className={s.line} />
+					<Product product={product} onChanged={onChanged} />
+				</div>
 			))}
-			{products.length ? <hr key={'list-' + Math.random()} className={s.line} /> : null}
+			{products.length ? <hr className={s.line} /> : null}
 		</>
 	);
 };

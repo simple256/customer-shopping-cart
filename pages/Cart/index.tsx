@@ -1,13 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import ProductList from '../../components/ProductList';
 import s from '../../styles/Cart.module.css';
 import TotalPrice from '../../components/TotalPrice';
-import { TTotalPrice } from '../../services/currency';
+import { TTotalPrice } from '../../services/Interfaces';
 import Label from '../../components/Label';
 import { ICartProduct } from '../../models/products';
 import CurrencySelector from '../../components/CurrencySelector';
 
-const CURRENCY_NAME: {[key: string]: any}= {
+const CURRENCY_NAME: { [key: string]: any } = {
 	RUB: 'rubles',
 	EUR: 'euros',
 	USD: 'dollars',
@@ -20,7 +20,7 @@ interface ICart {
 	currency: TTotalPrice;
 }
 
-const Cart: React.FC<ICart> = ({ products= [], currency }) => {
+const Cart: React.FC<ICart> = ({ products = [], currency }) => {
 	const [currencySelectorValue, setCurrencySelectorValue] = useState(CURRENCY_NAME.USD);
 	const [amount, setAmount] = useState(getTotalPrice(products, +(currency?.[currencySelectorValue] ?? 0)));
 	const onChangeHandler = () => {
@@ -34,7 +34,7 @@ const Cart: React.FC<ICart> = ({ products= [], currency }) => {
 		<div className={s.container}>
 			<Label classNames={s.title} size="l" isBold={true} textValue="Shopping Cart" />
 			<ProductList onChanged={onChangeHandler} products={products} />
-			<div className={s.totals} key={'123123321'}>
+			<div className={s.totals}>
 				<CurrencySelector currency={currencySelectorValue} onChanged={onCurrencyChanged} />
 				<TotalPrice classNames={s.totalPrice} amount={amount} currency={currencySelectorValue} />
 			</div>
@@ -44,9 +44,9 @@ const Cart: React.FC<ICart> = ({ products= [], currency }) => {
 
 function getTotalPrice(products: ICartProduct[], currency: number): number {
 	let sum = 0;
-	Array.from(products || []).forEach((product) => {
+	for (const product of products || []) {
 		sum += product.COUNT * product.PRICE * currency;
-	})
+	}
 	return sum;
 }
 
